@@ -1,10 +1,9 @@
 import { Inter } from "next/font/google";
 import Grid from '@mui/material/Grid';
 import { useEffect } from "react";
-import { Box, Button, Card, InputBase, Stack, Typography, alpha, styled, useTheme } from "@mui/material";
+import { Box, Button, InputBase, Stack, Typography, alpha, styled, useTheme } from "@mui/material";
 import { getStyles } from "@/styles/styles";
 import SearchIcon from '@mui/icons-material/Search';
-import Header from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +21,6 @@ const Search = styled('div')(({ theme }) => ({
   marginLeft: 0,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
     width: 'auto',
   },
 }));
@@ -54,7 +52,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Home() {
+export default function Header() {
   const theme = useTheme();
   const materialStyles = getStyles(theme);
 
@@ -63,20 +61,31 @@ export default function Home() {
   },[])
 
   return (
-    <Box sx={{
-      width: '100vw',
-      height: '100vh',
-      padding: '5%',
-      // backgroundImage: 'linear-gradient(to bottom right, black, #0e0e0e)'
-      backgroundColor: 'white',
-      overflowY: 'auto'
-    }}>
-        <Box gap={3}>
-            <Header/>
-            <Card sx={{height: '10rem', marginTop: '1rem'}} elevation={5}>
-              oi
-            </Card>
-        </Box>
-    </Box>
+    <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={12}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Typography color="black" variant="h3" align="left">
+            My Data
+            </Typography>
+            <Button variant="contained">Add CSV</Button>
+        </Stack>
+        </Grid>
+        <Grid item xs={12} sm={12} md={12}>
+        <Typography color="gray" variant="h6" align="left">
+            See all your csv data
+        </Typography>
+        </Grid>
+        <Grid item >
+        <Search>
+            <SearchIconWrapper>
+            <SearchIcon sx={{color: 'gray'}}/>
+            </SearchIconWrapper>
+            <StyledInputBase
+            placeholder="Search…"
+            inputProps={{ 'aria-label': 'search' }}
+            />
+        </Search>
+        </Grid>
+    </Grid>
   );
 }

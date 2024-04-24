@@ -1,9 +1,9 @@
 import React, { useCallback, useContext } from 'react';
 import { DropzoneState, useDropzone } from 'react-dropzone';
-import { CloseIcon } from '../../icons/CloseIcon';
-import { FileIcon } from '../../icons/FileIcon';
+// import { CloseIcon } from '../../icons/CloseIcon';
+// import { FileIcon } from '../../icons/FileIcon';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import { useFileContext } from '@/contexts/FileContext';
+// import { useFileContext } from '@/contexts/FileContext';
 import { useTranslation } from 'react-i18next';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
