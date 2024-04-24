@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import Grid from '@mui/material/Grid';
-import { useEffect } from "react";
-import { Box, Button, Card, InputBase, Stack, Typography, alpha, styled, useTheme } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, Button, Card, InputBase, Modal, Stack, Typography, alpha, styled, useTheme } from "@mui/material";
 import { getStyles } from "@/styles/styles";
 import SearchIcon from '@mui/icons-material/Search';
 import Header from "@/components/Header";
@@ -57,6 +57,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Home() {
   const theme = useTheme();
   const materialStyles = getStyles(theme);
+  const[openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
 
   useEffect(() => {
     
@@ -71,12 +74,20 @@ export default function Home() {
       backgroundColor: 'white',
       overflowY: 'auto'
     }}>
-        <Box gap={3}>
-            <Header/>
-            <Card sx={{height: '10rem', marginTop: '1rem'}} elevation={5}>
-              oi
-            </Card>
-        </Box>
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <></>
+      </Modal>
+      <Box gap={3}>
+          <Header onOpenModal={handleOpenModal}/>
+          <Card sx={{height: '10rem', marginTop: '1rem'}} elevation={5}>
+            oi
+          </Card>
+      </Box>
     </Box>
   );
 }

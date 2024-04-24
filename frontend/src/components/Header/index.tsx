@@ -52,7 +52,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Header() {
+interface HeaderProps {
+    onOpenModal: () => void;
+}
+export default function Header({onOpenModal}: HeaderProps) {
   const theme = useTheme();
   const materialStyles = getStyles(theme);
 
@@ -67,7 +70,7 @@ export default function Header() {
             <Typography color="black" variant="h3" align="left">
             My Data
             </Typography>
-            <Button variant="contained">Add CSV</Button>
+            <Button variant="contained" onClick={(e) => {e.preventDefault(); onOpenModal()}}>Add CSV</Button>
         </Stack>
         </Grid>
         <Grid item xs={12} sm={12} md={12}>
