@@ -5,6 +5,9 @@ import { Box, Button, Card, InputBase, Modal, Stack, Typography, alpha, styled, 
 import { getStyles } from "@/styles/styles";
 import SearchIcon from '@mui/icons-material/Search';
 import Header from "@/components/Header";
+import CloseIcon from '@mui/icons-material/Close';
+import Dropzone from "react-dropzone";
+import { FileInput } from "@/components/DropZone";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -80,7 +83,27 @@ export default function Home() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <></>
+        <Box sx={{
+          position: "absolute",
+          top: "50%",  // Centraliza verticalmente
+          left: "50%",  // Centraliza horizontalmente
+          transform: "translate(-50%, -50%)",  // Compensa a posição absoluta
+          width: "65%", 
+          height: "65%", 
+          backgroundColor: "white", 
+          borderRadius: "15px",
+          display: 'flex',
+          flexDirection: 'column',
+          padding: "1.5rem"
+        }}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Typography variant="h4" color="black">
+              Upload CSV
+            </Typography>
+            <CloseIcon onClick={handleCloseModal} fontSize="large" sx={{color: 'black', cursor: 'pointer'}}/>
+          </Stack>
+          <FileInput/>
+        </Box>
       </Modal>
       <Box gap={3}>
           <Header onOpenModal={handleOpenModal}/>

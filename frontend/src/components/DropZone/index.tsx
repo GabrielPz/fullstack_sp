@@ -1,12 +1,14 @@
 import React, { useCallback, useContext } from 'react';
 import { DropzoneState, useDropzone } from 'react-dropzone';
-// import { CloseIcon } from '../../icons/CloseIcon';
-// import { FileIcon } from '../../icons/FileIcon';
+import { CloseIcon } from '../../assets/icons/CloseIcon';
+import { FileIcon } from '../../assets/icons/FileIcon';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 // import { useFileContext } from '@/contexts/FileContext';
 import { useTranslation } from 'react-i18next';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import { useFileContext } from '@/contexts/FileContext';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 interface InputProps {
 dropzone: DropzoneState;
@@ -55,20 +57,22 @@ const Input = ({ dropzone, files }: InputProps & { files: File[] }) => {
             alignItems: 'center',
             justifyContent: 'center',
             padding: '10px',
+            height: '50%',
             borderRadius: '4px',
-            backgroundColor: isDragActive ? '#f0f0f0' : '#ffffff',
+            border: isDragActive ? '2px dashed #00eaff' : '2px dashed #ccc', // Define a borda tracejada
+            backgroundColor: isDragActive ? '#f0f0f0' : '#f0f0f0', // Muda a cor de fundo para azul quando ativo
             cursor: 'pointer',
-            opacity: files.length >= 1 ? 0.5 : 1, // Reduce opacity when 5 files are uploaded
+            opacity: files.length >= 1 ? 0.85 : 1, // Reduz a opacidade quando há arquivos carregados
         }}
         >
         <input {...getInputProps()} className="hidden" />
-        <AddPhotoAlternateIcon sx={{ fontSize: 75, color: isDragActive ? 'blue' : 'gray' }} />
+        <CloudUploadIcon sx={{ fontSize: 75, color: 'gray' }} />
         {isDragActive ? (
-            <p className="font-bold text-lg text-blue">Solte para adicionar</p>
+            <p className="font-bold text-lg text-white" style={{fontWeight: 'bold', color: '#000000'}}>Drop here</p>
         ) : (
             <>
             <p className="mb-2 text-lg text-gray">
-                <span style={{fontWeight: 'bold', color: '#000000'}}>{t("descCamera")}</span>
+                <span style={{fontWeight: 'bold', color: '#000000'}}>Select a CSV file to upload or drag here</span>
             </p>
             </>
         )}
@@ -78,7 +82,6 @@ const Input = ({ dropzone, files }: InputProps & { files: File[] }) => {
         </div>
     );
 };
-
 const HasFile = ({ file }: HasFileProps) => {
     const { setFiles } = useFileContext();
 
