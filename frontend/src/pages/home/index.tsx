@@ -12,54 +12,10 @@ import UploadCSV from "@/components/UploadCSV";
 import { Data } from "@/types/data";
 import { getData } from "@/services/backendCalls";
 import Cards from "@/components/Cards";
+import SkeletonComponent from "@/components/SkeletonComponent";
+import {Search, SearchIconWrapper, StyledInputBase} from "../../types/constants";
 
 const inter = Inter({ subsets: ["latin"] });
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  border: `1px solid ${alpha(theme.palette.common.black, 0.5)}`,  // Borda mais escura quando não focado
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  '&:focus-within': {
-    border: `1px solid ${alpha(theme.palette.common.black, 0.85)}`,  // Borda mais clara quando focado
-  },
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'black',
-  width: '100%',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
 
 export default function Home() {
   const theme = useTheme();
@@ -68,14 +24,17 @@ export default function Home() {
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
   const[data, setData] = useState<Data[]>([]);
-  const[fetchedData, setFetchedData] = useState(false)
+  const[fetchedData, setFetchedData] = useState(false);
+  const[searchTerm, setSearchTerm] = useState("");
+
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await getData();
       setData(response.data);
     };
     fetchData();
-    // setFetchedData(true);
+    setFetchedData(true);
   },[])
 
   return (
@@ -95,15 +54,21 @@ export default function Home() {
         <UploadCSV handleCloseModal={handleCloseModal}/>
       </Modal>
       <Header onOpenModal={handleOpenModal}/>
+      <Search>
+          <SearchIconWrapper>
+          <SearchIcon sx={{color: 'gray'}}/>
+          </SearchIconWrapper>
+          <StyledInputBase
+          placeholder="Search…"
+          inputProps={{ 'aria-label': 'search' }}
+          onChange={e => setSearchTerm(e.target.value)}
+          />
+      </Search>
       {fetchedData && (
-        <Cards data={data}/>
+        <Cards data={data} searchTerm={searchTerm} />
       )}
       {!fetchedData && (
-        <>
-          <Skeleton variant="rectangular" width="100%" height="25%" sx={{marginTop: '1rem'}}/>
-          <Skeleton variant="rectangular" width="100%" height="25%" sx={{marginTop: '1rem'}}/>
-          <Skeleton variant="rectangular" width="100%" height="25%" sx={{marginTop: '1rem'}}/>
-        </>
+        <SkeletonComponent/>
       )}
     </Box>
   );

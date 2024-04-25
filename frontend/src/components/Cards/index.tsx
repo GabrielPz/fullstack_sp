@@ -7,26 +7,33 @@ import { CardsProps, Data } from "@/types/data";
 import { getData } from "@/services/backendCalls";
 
 
-export default function Cards({data}: CardsProps) {
+export default function Cards({data, searchTerm}: CardsProps) {
 
-  return (
-      <Box gap={3}>
-        {data.map((row) => (
-          <Card sx={{height: '10rem', marginTop: '1rem'}} elevation={5}>
-            <Typography variant="h6" color="black">
-                Name: {row.name}
-            </Typography>
-            <Typography variant="h6" color="black">
-                City: {row.city}
-            </Typography>
-            <Typography variant="h6" color="black">
-                Country: {row.country}
-            </Typography>
-            <Typography variant="h6" color="black">
-                Favorite Sport: {row.favorite_sport}
-            </Typography>
-          </Card>
-        ))}
-      </Box>
-  );
+    const filteredData = data.filter(row =>
+        row.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.country.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        row.favorite_sport.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    
+    return (
+        <Box gap={3}>
+            {filteredData.map((row) => (
+            <Card sx={{height: '10rem', marginTop: '1rem', padding: '1rem'}} elevation={5}>
+                <Typography variant="h6" color="black">
+                    Name: {row.name}
+                </Typography>
+                <Typography variant="h6" color="black">
+                    City: {row.city}
+                </Typography>
+                <Typography variant="h6" color="black">
+                    Country: {row.country}
+                </Typography>
+                <Typography variant="h6" color="black">
+                    Favorite Sport: {row.favorite_sport}
+                </Typography>
+            </Card>
+            ))}
+        </Box>
+    );
 }

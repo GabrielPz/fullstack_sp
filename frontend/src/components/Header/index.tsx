@@ -5,63 +5,12 @@ import { Box, Button, InputBase, Stack, Typography, alpha, styled, useTheme } fr
 import { getStyles } from "@/styles/styles";
 import SearchIcon from '@mui/icons-material/Search';
 
-const inter = Inter({ subsets: ["latin"] });
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  border: `1px solid ${alpha(theme.palette.common.black, 0.5)}`,  // Borda mais escura quando não focado
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  '&:focus-within': {
-    border: `1px solid ${alpha(theme.palette.common.black, 0.85)}`,  // Borda mais clara quando focado
-  },
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'black',
-  width: '100%',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
-
 interface HeaderProps {
     onOpenModal: () => void;
 }
 export default function Header({onOpenModal}: HeaderProps) {
   const theme = useTheme();
   const materialStyles = getStyles(theme);
-
-  useEffect(() => {
-    
-  },[])
 
   return (
     <Grid container spacing={2}>
@@ -77,17 +26,6 @@ export default function Header({onOpenModal}: HeaderProps) {
         <Typography color="gray" variant="h6" align="left">
             See all your csv data
         </Typography>
-        </Grid>
-        <Grid item >
-        <Search>
-            <SearchIconWrapper>
-            <SearchIcon sx={{color: 'gray'}}/>
-            </SearchIconWrapper>
-            <StyledInputBase
-            placeholder="Search…"
-            inputProps={{ 'aria-label': 'search' }}
-            />
-        </Search>
         </Grid>
     </Grid>
   );

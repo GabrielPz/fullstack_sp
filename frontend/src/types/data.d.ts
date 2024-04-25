@@ -6,4 +6,9 @@ export interface Data {
 }
 export interface CardsProps{
     data: Data[];
+    searchTerm: string;
+}
+interface HeaderProps {
+    onOpenModal: () => void;
+    setSearchTerm: ()=> void;
 }
