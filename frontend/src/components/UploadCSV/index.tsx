@@ -1,14 +1,7 @@
 import { Inter } from "next/font/google";
-import Grid from '@mui/material/Grid';
-import { useEffect, useState } from "react";
 import { Box, Button, Card, InputBase, Modal, Stack, Typography, alpha, styled, useTheme } from "@mui/material";
-import { getStyles } from "@/styles/styles";
-import SearchIcon from '@mui/icons-material/Search';
-import Header from "@/components/Header";
 import CloseIcon from '@mui/icons-material/Close';
-import Dropzone from "react-dropzone";
 import { FileInput } from "@/components/DropZone";
-import UploadCSV from "@/components/UploadCSV";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -58,40 +51,35 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Home() {
-  const theme = useTheme();
-  const materialStyles = getStyles(theme);
-  const[openModal, setOpenModal] = useState(false);
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+interface UploadCSVProps {
+    handleCloseModal: () => void;
+}
 
-  useEffect(() => {
-    
-  },[])
+export default function UploadCSV({handleCloseModal}: UploadCSVProps) {
 
   return (
     <Box sx={{
-      width: '100vw',
-      height: '100vh',
-      padding: '5%',
-      // backgroundImage: 'linear-gradient(to bottom right, black, #0e0e0e)'
-      backgroundColor: 'white',
-      overflowY: 'auto'
+        position: "absolute",
+        top: "50%",  // Centraliza verticalmente
+        left: "50%",  // Centraliza horizontalmente
+        transform: "translate(-50%, -50%)",  // Compensa a posição absoluta
+        width: "65%", 
+        height: "65%", 
+        backgroundColor: "white", 
+        borderRadius: "15px",
+        display: 'flex',
+        flexDirection: 'column',
+        padding: "1.5rem",
+        justifyContent: 'space-around'
     }}>
-      <Modal
-        open={openModal}
-        onClose={handleCloseModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <UploadCSV handleCloseModal={handleCloseModal}/>
-      </Modal>
-      <Box gap={3}>
-          <Header onOpenModal={handleOpenModal}/>
-          <Card sx={{height: '10rem', marginTop: '1rem'}} elevation={5}>
-            oi
-          </Card>
-      </Box>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <Typography variant="h4" color="black">
+            Upload CSV
+        </Typography>
+        <CloseIcon onClick={handleCloseModal} fontSize="large" sx={{color: 'black', cursor: 'pointer'}}/>
+        </Stack>
+        <FileInput/>
+        <Button sx={{width: '80%', alignSelf: 'center'}} variant="contained" onClick={(e) => {e.preventDefault();}}>Upload</Button>
     </Box>
   );
 }
