@@ -1,4 +1,3 @@
-import { Message } from './../../../backend/node_modules/esbuild/lib/main.d';
 import api from "@/lib/axios"
 import { Data } from "@/types/data"
 
