@@ -1,24 +1,30 @@
+import { Message } from './../../../backend/node_modules/esbuild/lib/main.d';
+import api from "@/lib/axios"
 import { Data } from "@/types/data"
 
 
 export const getData = async () => {
-    const data: Data[] = [
-        {
-            city: 'City test',
-            country: 'Country Test',
-            favorite_sport: 'Football',
-            name: 'Test'
-        },
-        {
-            city: 'Cidade',
-            country: 'Country Test',
-            favorite_sport: 'Baseball',
-            name: 'Test'
-        },
-    ]
-    return{status: 200, data: data, message: 'Dados obtidos com sucesso'}
+    let data: Data[] = []
+    try{
+        const response = await api.get("user");
+        data = response.data.data;
+        return{status: response.status, data: data, message: response.data.message || 'Success'}
+    }catch(err: any){   
+        return{status: err.response.status, data: data, message: err.response.data.message || 'Error'}
+    }
 }
 
 export const sendCsv = async (file: File) => {
-    return {status: 201, data: null, message: 'Arquivo enviado com sucesso'}
+        let formData = new FormData();
+        formData.append('file', file);
+        try{
+            const response = await api.post("files", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                    }
+            })
+            return{status: response.status, message: response.data.message || 'Success'}
+        } catch(err: any){
+            return{status: err.response.status, message: err.response.data.message || 'Error'}
+        }
 }
