@@ -1,28 +1,16 @@
-import fastify from "fastify";
-import fastifyCors from "@fastify/cors";
-import {
-  serializerCompiler,
-  validatorCompiler,
-} from "fastify-type-provider-zod";
-import { sendFile } from "./routes/send-files";
-import { getFile } from "./routes/api-usuarios";
-import fastifyMultipart from "fastify-multipart";
+import express from "express";
+import filesRoutes from "./routes/files";
+import userRoutes from "./routes/users";
+const cors = require("cors");
 
-const app = fastify();
+const app = express();
+const port = process.env.PORT || 3000;
 
-app.register(fastifyCors, {
-  origin: "*"
-});
+app.use(cors());
+app.use(express.json());
+app.use(filesRoutes);
+app.use(userRoutes);
 
-app.setValidatorCompiler(validatorCompiler);
-app.setSerializerCompiler(serializerCompiler);
-
-app.register(getFile);
-app.register(fastifyMultipart, {
-  addToBody: true
-});
-app.register(sendFile);
-
-app.listen({ port: 3000, host: "0.0.0.0" }).then(() => {
-  console.log("Server is running on port 3333");
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
