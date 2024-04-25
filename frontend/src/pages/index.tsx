@@ -9,6 +9,7 @@ import { getData } from "@/services/backendCalls";
 import Cards from "@/components/Cards";
 import SkeletonComponent from "@/components/SkeletonComponent";
 import {Search, SearchIconWrapper, StyledInputBase} from "../types/constants";
+import { showToast } from "@/services/toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,9 @@ export default function Home() {
     const fetchData = async () => {
       setFetchingData(true);
       const response = await getData();
+      if(response.status != 200){
+        showToast("error", response.message);
+      }
       setData(response.data);
       setFetchingData(false);
     };
@@ -51,7 +55,7 @@ export default function Home() {
       >
         <UploadCSV handleCloseModal={handleCloseModal} handleRefreshState={handleRefreshState}/>
       </Modal>
-      <Header onOpenModal={handleOpenModal}/>
+      <Header onOpenModal={handleOpenModal} handleRefreshState={handleRefreshState}/>
       <Search>
           <SearchIconWrapper>
           <SearchIcon sx={{color: 'gray'}}/>

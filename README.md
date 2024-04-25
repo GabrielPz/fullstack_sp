@@ -50,8 +50,8 @@ CSV Upload Endpoint: [POST /api/files] to accept and store uploaded CSV file dat
 Data Search Endpoint: [GET /api/users] allows searching through loaded CSV data using a query parameter.
 
 ## Deployment
-FRONTEND: 
-BACKEND: 
+FRONTEND: https://fullstack-sp.vercel.app/
+BACKEND: https://fullstack-sp.onrender.com/
 
 ## Technology Stack
 - [x] Frontend: React (TypeScript)

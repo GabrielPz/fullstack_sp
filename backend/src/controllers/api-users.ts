@@ -22,3 +22,22 @@ export const apiUser = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const deleteUserRecords = async (req: Request, res: Response) => {
+  try {
+    // Attempt to delete all users from the database
+    const result = await prisma.user.deleteMany({});
+    
+    // Check if any users were deleted
+    if (result.count === 0) {
+      return res.status(404).send({ message: "No data found to delete." });
+    }
+
+    return res.status(200).send({ message: `All data deleted` });
+  } catch (error) {
+    return res.status(500).send({
+      message:
+        error instanceof Error ? error.message : "An unexpected error occurred while deleting data."
+    });
+  }
+};
