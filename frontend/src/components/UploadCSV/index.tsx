@@ -1,68 +1,44 @@
 import { Inter } from "next/font/google";
-import { Box, Button, Card, InputBase, Modal, Stack, Typography, alpha, styled, useTheme } from "@mui/material";
+import { Box, Button, Card, InputBase, Modal, Stack, Typography, alpha, styled, useMediaQuery, useTheme } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { FileInput } from "@/components/DropZone";
+import { useState } from "react";
+import { useFileContext } from "@/contexts/FileContext";
+import { sendCsv } from "@/services/backendCalls";
+import { showToast } from "@/services/toast";
+import { UploadCSVProps } from "@/types/data";
 
-const inter = Inter({ subsets: ["latin"] });
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  border: `1px solid ${alpha(theme.palette.common.black, 0.5)}`,  // Borda mais escura quando não focado
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  '&:focus-within': {
-    border: `1px solid ${alpha(theme.palette.common.black, 0.85)}`,  // Borda mais clara quando focado
-  },
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'black',
-  width: '100%',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
-
-interface UploadCSVProps {
-    handleCloseModal: () => void;
-}
-
-export default function UploadCSV({handleCloseModal}: UploadCSVProps) {
+export default function UploadCSV({handleCloseModal, handleRefreshState}: UploadCSVProps) {
+  const[loading, setLoading] = useState(false);
+  const { files, setFiles } = useFileContext();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const handleSendCsv = async () => {
+    if(files.length == 0){
+      showToast("warning", <p>Select a File</p>);
+      return;
+    }
+    setLoading(true);
+    const response = await sendCsv(files[0]);
+    if(response.status != 201){
+      showToast("error", <p>Error Uploading CSV</p>);
+      setLoading(false);
+      return
+    }
+    setLoading(false);
+    showToast("success", <p>CSV uploaded!</p>)
+    setFiles([]);
+    handleRefreshState();
+    handleCloseModal();
+  }
 
   return (
     <Box sx={{
         position: "absolute",
-        top: "50%",  // Centraliza verticalmente
-        left: "50%",  // Centraliza horizontalmente
-        transform: "translate(-50%, -50%)",  // Compensa a posição absoluta
+        top: "50%", 
+        left: "50%", 
+        transform: "translate(-50%, -50%)", 
         width: "65%", 
         height: "65%", 
         backgroundColor: "white", 
@@ -73,13 +49,13 @@ export default function UploadCSV({handleCloseModal}: UploadCSVProps) {
         justifyContent: 'space-around'
     }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <Typography variant="h4" color="black">
+        <Typography variant={isMobile ? 'h6' : 'h4'} color="black">
             Upload CSV
         </Typography>
-        <CloseIcon onClick={handleCloseModal} fontSize="large" sx={{color: 'black', cursor: 'pointer'}}/>
+        <CloseIcon onClick={handleCloseModal} fontSize={isMobile ? 'small' : 'large'} sx={{color: 'black', cursor: 'pointer'}}/>
         </Stack>
         <FileInput/>
-        <Button sx={{width: '80%', alignSelf: 'center'}} variant="contained" onClick={(e) => {e.preventDefault();}}>Upload</Button>
+        <Button sx={{width: '80%', alignSelf: 'center'}} variant="contained" onClick={(e) => {e.preventDefault(); handleSendCsv();}}>Upload</Button>
     </Box>
   );
 }

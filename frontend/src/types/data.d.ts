@@ -8,7 +8,12 @@ export interface CardsProps{
     data: Data[];
     searchTerm: string;
 }
-interface HeaderProps {
+export interface HeaderProps {
     onOpenModal: () => void;
     setSearchTerm: ()=> void;
+}
+
+export interface UploadCSVProps {
+    handleCloseModal: () => void;
+    handleRefreshState: () => void;
 }

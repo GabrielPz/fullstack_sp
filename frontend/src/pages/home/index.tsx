@@ -24,18 +24,21 @@ export default function Home() {
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
   const[data, setData] = useState<Data[]>([]);
-  const[fetchedData, setFetchedData] = useState(false);
+  const[fetchingData, setFetchingData] = useState(true);
   const[searchTerm, setSearchTerm] = useState("");
-
+  const[refreshState, setRefreshState] = useState(false);
+  const handleRefreshState = () => setRefreshState(!refreshState)
 
   useEffect(() => {
     const fetchData = async () => {
+      setFetchingData(true);
       const response = await getData();
       setData(response.data);
+      setFetchingData(false);
     };
     fetchData();
-    setFetchedData(true);
-  },[])
+
+  },[refreshState])
 
   return (
     <Box sx={{
@@ -51,7 +54,7 @@ export default function Home() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <UploadCSV handleCloseModal={handleCloseModal}/>
+        <UploadCSV handleCloseModal={handleCloseModal} handleRefreshState={handleRefreshState}/>
       </Modal>
       <Header onOpenModal={handleOpenModal}/>
       <Search>
@@ -64,10 +67,10 @@ export default function Home() {
           onChange={e => setSearchTerm(e.target.value)}
           />
       </Search>
-      {fetchedData && (
+      {!fetchingData && (
         <Cards data={data} searchTerm={searchTerm} />
       )}
-      {!fetchedData && (
+      {fetchingData && (
         <SkeletonComponent/>
       )}
     </Box>
