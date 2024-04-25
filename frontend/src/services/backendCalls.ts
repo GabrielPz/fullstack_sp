@@ -5,7 +5,7 @@ import { Data } from "@/types/data"
 export const getData = async () => {
     let data: Data[] = []
     try{
-        const response = await api.get("user");
+        const response = await api.get("users");
         data = response.data.data;
         return{status: response.status, data: data, message: response.data.message || 'Success'}
     }catch(err: any){   

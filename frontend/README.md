@@ -1,40 +1,70 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+# Fullstack CSV Data Viewer
+
+This repository contains a web application designed to allow users to upload, view, and search through CSV data displayed as cards on a single-page application (SPA). The application is built using React for the frontend and Node.js for the backend, all written in TypeScript.
 
 ## Getting Started
 
-First, run the development server:
+To run this project locally, clone the repository and follow the instructions below.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Prerequisites
+
+Ensure you have Node.js installed on your machine. You can download and install Node.js from [Node.js official site](https://nodejs.org/).
+
+### Installing
+
+To set up the project, you need to install dependencies for both the backend and frontend.
+
+```
+# Install backend dependencies
+cd backend
+npm install
+
+# Install frontend dependencies
+cd ../frontend
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Running the Application
+To start both the frontend and backend servers, use the following commands:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```
+# Start the backend server
+cd backend
+npm run dev
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+# In another terminal, start the frontend server
+cd frontend
+npm run dev
+```
+The frontend will be available at http://localhost:4000/ and the backend at http://localhost:3000/.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Features
+#### Frontend
+CSV Upload: A button to select a CSV file and another to upload the file to the backend.
+Search Functionality: A search bar to filter through the data displayed.
+Data Display: Displays data from the CSV as cards.
+Responsive Design: Works well on both desktop and mobile devices.
+### Backend
+CSV Upload Endpoint: [POST /api/files] to accept and store uploaded CSV file data.
+Data Search Endpoint: [GET /api/users] allows searching through loaded CSV data using a query parameter.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Deployment
+FRONTEND: 
+BACKEND: 
 
-## Learn More
+## Technology Stack
+- [x] Frontend: React (TypeScript)
+- [x] Frontend: Next.js
+- [x] Frontend: Axios
+- [x] Frontend: Material UI
+- [x] Frontend: React Dropzone
+- [x] Frontend: Toastify
+- [x] Backend: Node.js (TypeScript) without the use of opinionated frameworks
+- [x] Backend: Prisma
+- [x] Backend: SQLite
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## File Structure
+/frontend: Contains all frontend code including React components, styles, and tests.
+/backend: Contains all backend code including API endpoints, configurations, and tests.

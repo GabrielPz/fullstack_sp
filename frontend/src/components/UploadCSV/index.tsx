@@ -21,7 +21,7 @@ export default function UploadCSV({handleCloseModal, handleRefreshState}: Upload
     }
     setLoading(true);
     const response = await sendCsv(files[0]);
-    if(response.status != 201){
+    if(response.status != 200){
       showToast("error", <p>Error Uploading CSV</p>);
       setLoading(false);
       return
