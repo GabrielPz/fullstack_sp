@@ -7,7 +7,7 @@ import { useFileContext } from "@/contexts/FileContext";
 import { sendCsv } from "@/services/backendCalls";
 import { showToast } from "@/services/toast";
 import { UploadCSVProps } from "@/types/data";
-
+import { LoadingButton } from '@mui/lab';
 
 export default function UploadCSV({handleCloseModal, handleRefreshState}: UploadCSVProps) {
   const[loading, setLoading] = useState(false);
@@ -55,7 +55,7 @@ export default function UploadCSV({handleCloseModal, handleRefreshState}: Upload
         <CloseIcon onClick={handleCloseModal} fontSize={isMobile ? 'small' : 'large'} sx={{color: 'black', cursor: 'pointer'}}/>
         </Stack>
         <FileInput/>
-        <Button sx={{width: '80%', alignSelf: 'center'}} variant="contained" onClick={(e) => {e.preventDefault(); handleSendCsv();}}>Upload</Button>
+        <LoadingButton loading={loading} sx={{width: '80%', alignSelf: 'center'}} variant="contained" onClick={(e) => {e.preventDefault(); handleSendCsv();}}>Upload</LoadingButton>
     </Box>
   );
 }

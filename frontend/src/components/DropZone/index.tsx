@@ -35,8 +35,9 @@ const dropzone = useDropzone({
     'image/gif': ['.gif'],
     'image/bmp': ['.bmp'],
     'image/webp': ['.webp'],
+    'text/csv': ['.csv']
     },
-    disabled: files.length >= 2, // Disable drop zone when 5 files are uploaded
+    disabled: files.length >= 1, // Disable drop zone when 5 files are uploaded
 });
 
 return <Input dropzone={dropzone} files={files} />;
@@ -103,6 +104,7 @@ const HasFile = ({ file }: HasFileProps) => {
             border: '2px dashed #ccc',
             borderRadius: '4px',
             backgroundColor: '#f0f0f0',
+            color: 'black'
         }}
     >
         <div className="file-details">
