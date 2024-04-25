@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import Grid from '@mui/material/Grid';
 import { useEffect, useState } from "react";
-import { Box, Button, Card, InputBase, Modal, Stack, Typography, alpha, styled, useTheme } from "@mui/material";
+import { Box, Button, Card, InputBase, Modal, Skeleton, Stack, Typography, alpha, styled, useTheme } from "@mui/material";
 import { getStyles } from "@/styles/styles";
 import SearchIcon from '@mui/icons-material/Search';
 import Header from "@/components/Header";
@@ -9,6 +9,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import Dropzone from "react-dropzone";
 import { FileInput } from "@/components/DropZone";
 import UploadCSV from "@/components/UploadCSV";
+import { Data } from "@/types/data";
+import { getData } from "@/services/backendCalls";
+import Cards from "@/components/Cards";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -64,9 +67,15 @@ export default function Home() {
   const[openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
-
+  const[data, setData] = useState<Data[]>([]);
+  const[fetchedData, setFetchedData] = useState(false)
   useEffect(() => {
-    
+    const fetchData = async () => {
+      const response = await getData();
+      setData(response.data);
+    };
+    fetchData();
+    // setFetchedData(true);
   },[])
 
   return (
@@ -74,7 +83,6 @@ export default function Home() {
       width: '100vw',
       height: '100vh',
       padding: '5%',
-      // backgroundImage: 'linear-gradient(to bottom right, black, #0e0e0e)'
       backgroundColor: 'white',
       overflowY: 'auto'
     }}>
@@ -86,12 +94,17 @@ export default function Home() {
       >
         <UploadCSV handleCloseModal={handleCloseModal}/>
       </Modal>
-      <Box gap={3}>
-          <Header onOpenModal={handleOpenModal}/>
-          <Card sx={{height: '10rem', marginTop: '1rem'}} elevation={5}>
-            oi
-          </Card>
-      </Box>
+      <Header onOpenModal={handleOpenModal}/>
+      {fetchedData && (
+        <Cards data={data}/>
+      )}
+      {!fetchedData && (
+        <>
+          <Skeleton variant="rectangular" width="100%" height="25%" sx={{marginTop: '1rem'}}/>
+          <Skeleton variant="rectangular" width="100%" height="25%" sx={{marginTop: '1rem'}}/>
+          <Skeleton variant="rectangular" width="100%" height="25%" sx={{marginTop: '1rem'}}/>
+        </>
+      )}
     </Box>
   );
 }
